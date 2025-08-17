@@ -37,7 +37,7 @@
                     <a href="cultural_food_map.html" class="text-text-secondary hover:text-primary transition-smooth">Mapa Gastronómico</a>
                     <a href="community_reviews_stories.html" class="text-text-secondary hover:text-primary transition-smooth">Histórias Culturais</a>
                     <a href="events_cultural_calendar.html" class="text-text-secondary hover:text-primary transition-smooth">Eventos</a>
-                    <button class="btn-primary">Reservas</button>
+                    <button class="btn-primary" id="header-reservations-btn">Reservas</button>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -56,7 +56,7 @@
                     <a href="cultural_food_map.html" class="text-text-secondary">Mapa Gastronómico</a>
                     <a href="community_reviews_stories.html" class="text-text-secondary">Histórias Culturais</a>
                     <a href="events_cultural_calendar.html" class="text-text-secondary">Eventos</a>
-                    <button class="btn-primary w-full">Reservas</button>
+                    <button class="btn-primary w-full" id="mobile-reservations-btn">Reservas</button>
                 </div>
             </div>
         </nav>
@@ -965,6 +965,62 @@
         document.getElementById('map-toggle').addEventListener('click', function() {
             // Toggle to map view - would integrate with cultural_food_map.html
             window.location.href = 'cultural_food_map.html';
+        });
+
+        // Reservations buttons
+        const headerReservationsBtn = document.getElementById('header-reservations-btn');
+        const mobileReservationsBtn = document.getElementById('mobile-reservations-btn');
+
+        function openReservations() {
+            console.log('Opening reservations...');
+            alert('Sistema de reservas será implementado em breve!');
+        }
+
+        if (headerReservationsBtn) {
+            headerReservationsBtn.addEventListener('click', openReservations);
+        }
+        if (mobileReservationsBtn) {
+            mobileReservationsBtn.addEventListener('click', openReservations);
+        }
+
+        // Favorite buttons (heart icons)
+        document.querySelectorAll('button[class*="bg-white/90"]').forEach(btn => {
+            if (btn.querySelector('svg')) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const heartIcon = this.querySelector('svg');
+                    const isFavorited = heartIcon.classList.contains('text-error');
+                    
+                    if (isFavorited) {
+                        heartIcon.classList.remove('text-error');
+                        heartIcon.classList.add('text-text-secondary');
+                        console.log('Removed from favorites');
+                    } else {
+                        heartIcon.classList.remove('text-text-secondary');
+                        heartIcon.classList.add('text-error');
+                        console.log('Added to favorites');
+                    }
+                });
+            }
+        });
+
+        // Restaurant card click handlers
+        document.querySelectorAll('article.card').forEach(card => {
+            card.addEventListener('click', function() {
+                const restaurantName = this.querySelector('h3').textContent;
+                console.log('Opening restaurant:', restaurantName);
+                window.location.href = 'restaurant_profile_pages.html';
+            });
+        });
+
+        // "Ver Detalhes" buttons
+        document.querySelectorAll('a[href="restaurant_profile_pages.html"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const restaurantName = this.closest('article').querySelector('h3').textContent;
+                console.log('Opening details for:', restaurantName);
+                // Link already goes to restaurant_profile_pages.html
+            });
         });
 
         // Smooth scrolling for anchor links
