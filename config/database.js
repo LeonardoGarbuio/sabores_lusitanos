@@ -127,7 +127,7 @@ const createTables = () => {
   // Stories table
   db.run(`CREATE TABLE IF NOT EXISTS stories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    author_id INTEGER NOT NULL,
+    author_id INTEGER,
     title TEXT NOT NULL,
     slug TEXT UNIQUE NOT NULL,
     content TEXT,
@@ -139,11 +139,11 @@ const createTables = () => {
     related_events TEXT,
     region TEXT,
     reading_time INTEGER,
-    is_published BOOLEAN DEFAULT 0,
+    is_published BOOLEAN DEFAULT 1,
     is_featured BOOLEAN DEFAULT 0,
     is_verified BOOLEAN DEFAULT 0,
-    status TEXT DEFAULT 'draft',
-    published_at DATETIME,
+    status TEXT DEFAULT 'published',
+    published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     views INTEGER DEFAULT 0,
     likes INTEGER DEFAULT 0,
     comments INTEGER DEFAULT 0,

@@ -7,8 +7,8 @@ class Story {
     const slug = title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
     
     const sql = `
-      INSERT INTO stories (author_id, title, slug, content, excerpt, category, region, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+      INSERT INTO stories (author_id, title, slug, content, excerpt, category, region)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
     
     const result = await run(sql, [author_id, title, slug, content, excerpt, category, region]);
