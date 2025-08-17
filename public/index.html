@@ -68,14 +68,20 @@
         <div class="logo">Sabores Lusitanos</div>
         <div class="subtitle">Authentic Portuguese Culinary Experience</div>
         <div class="loading-spinner"></div>
-        <div class="redirect-message">Redirecting to homepage...</div>
+        <div class="redirect-message">Carregando...</div>
+        <div style="margin-top: 20px;">
+            <a href="homepage.html" style="color: #f4d03f; text-decoration: none; font-weight: bold; padding: 10px 20px; border: 2px solid #f4d03f; border-radius: 5px;">
+                Clique aqui para acessar o site
+            </a>
+        </div>
     </div>
 
     <script>
-        // Redirect to homepage after a brief delay
+        // Auto redirect after 3 seconds
         setTimeout(function() {
+            console.log('Attempting to redirect to homepage...');
             window.location.href = 'homepage.html';
-        }, 2000);
+        }, 3000);
     </script>
 </body>
 </html>
