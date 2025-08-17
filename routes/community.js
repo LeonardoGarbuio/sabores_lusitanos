@@ -12,93 +12,28 @@ const router = express.Router();
 // @desc    Get all stories with filters
 // @route   GET /api/community/stories
 // @access  Public
-router.get('/stories', [
-  query('page').optional().isInt({ min: 1 }).withMessage('Página deve ser um número positivo'),
-  query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limite deve ser entre 1 e 100'),
-  query('category').optional().isIn(['traditions', 'chef_profile', 'ingredients', 'recipes', 'cultural_history', 'personal_experience', 'travel', 'seasonal']),
-  query('region').optional().isIn(['minho', 'douro', 'beiras', 'lisboa', 'alentejo', 'algarve', 'madeira', 'acores', 'general']),
-  query('sort').optional().isIn(['newest', 'oldest', 'popular', 'featured']),
-  query('search').optional().trim()
-], async (req, res) => {
+router.get('/stories', async (req, res) => {
   try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array()
-      });
-    }
+    const { category, region } = req.query;
+    
+    // Build filters for SQLite
+    const filters = {};
+    if (category) filters.category = category;
+    if (region) filters.region = region;
 
-    const {
-      page = 1,
-      limit = 12,
-      category,
-      region,
-      sort = 'newest',
-      search
-    } = req.query;
-
-    // Build filter object
-    const filter = { 
-      isActive: true, 
-      isPublished: true,
-      status: 'published'
-    };
-
-    if (category) filter.category = category;
-    if (region) filter.region = region;
-    if (search) filter.$text = { $search: search };
-
-    // Build sort object
-    let sortObj = {};
-    switch (sort) {
-      case 'oldest':
-        sortObj = { publishedAt: 1 };
-        break;
-      case 'popular':
-        sortObj = { views: -1, likeCount: -1 };
-        break;
-      case 'featured':
-        sortObj = { isFeatured: -1, publishedAt: -1 };
-        break;
-      case 'newest':
-      default:
-        sortObj = { publishedAt: -1 };
-        break;
-    }
-
-    // Calculate pagination
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-
-    // Execute query
-    const stories = await Story.find(filter)
-      .populate('author', 'name avatar')
-      .populate('relatedRestaurants', 'name slug images')
-      .populate('relatedEvents', 'title slug dates images')
-      .sort(sortObj)
-      .skip(skip)
-      .limit(parseInt(limit))
-      .select('-__v');
-
-    // Get total count for pagination
-    const total = await Story.countDocuments(filter);
-
-    // Calculate pagination info
-    const totalPages = Math.ceil(total / parseInt(limit));
-    const hasNextPage = page < totalPages;
-    const hasPrevPage = page > 1;
+    // Get stories from SQLite
+    const stories = await Story.getAll(filters);
 
     res.json({
       success: true,
       data: stories,
       pagination: {
-        currentPage: parseInt(page),
-        totalPages,
-        total,
-        hasNextPage,
-        hasPrevPage,
-        limit: parseInt(limit)
+        currentPage: 1,
+        totalPages: 1,
+        total: stories.length,
+        hasNextPage: false,
+        hasPrevPage: false,
+        limit: stories.length
       }
     });
   } catch (error) {
@@ -162,44 +97,34 @@ router.get('/stories/:slug', optionalAuth, async (req, res) => {
 // @desc    Create new story (public)
 // @route   POST /api/community/stories
 // @access  Public
-router.post('/stories', [
-  body('title')
-    .trim()
-    .isLength({ min: 2, max: 150 })
-    .withMessage('Título deve ter entre 2 e 150 caracteres'),
-  body('content')
-    .trim()
-    .isLength({ min: 50, max: 5000 })
-    .withMessage('Conteúdo deve ter entre 50 e 5000 caracteres'),
-  body('category')
-    .isIn(['traditions', 'chef_profile', 'ingredients', 'recipes', 'cultural_history', 'personal_experience', 'travel', 'seasonal'])
-    .withMessage('Categoria inválida'),
-  body('region')
-    .optional()
-    .isIn(['minho', 'douro', 'beiras', 'lisboa', 'alentejo', 'algarve', 'madeira', 'acores', 'general'])
-    .withMessage('Região inválida')
-], async (req, res) => {
+router.post('/stories', async (req, res) => {
   try {
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    const { title, content, category, restaurant, rating } = req.body;
+
+    // Validate required fields
+    if (!title || !content || !category) {
       return res.status(400).json({
         success: false,
-        errors: errors.array()
+        message: 'Título, conteúdo e categoria são obrigatórios'
       });
     }
 
-    // Set default values for public stories
-    req.body.author = null; // Anonymous story
-    req.body.status = 'published';
-    req.body.isPublished = true;
-    req.body.isActive = true;
+    // Create story data
+    const storyData = {
+      author_id: null, // Anonymous
+      title: title,
+      content: content,
+      excerpt: content.substring(0, 200) + '...',
+      category: category,
+      region: 'general'
+    };
 
-    const story = await Story.create(req.body);
+    const story = await Story.create(storyData);
 
     res.status(201).json({
       success: true,
-      data: story
+      data: story,
+      message: 'História criada com sucesso!'
     });
   } catch (error) {
     console.error('Create story error:', error);
