@@ -1,156 +1,82 @@
-const mongoose = require('mongoose');
+const { db, run, get, all } = require('../config/database');
 
-const reservationSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  restaurant: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Restaurant',
-    required: true
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  time: {
-    type: String,
-    required: true
-  },
-  partySize: {
-    type: Number,
-    required: true,
-    min: [1, 'Tamanho da mesa deve ser pelo menos 1'],
-    max: [20, 'Tamanho da mesa não pode ser maior que 20']
-  },
-  specialRequests: {
-    type: String,
-    maxlength: [500, 'Pedidos especiais não podem ter mais de 500 caracteres']
-  },
-  dietaryRestrictions: [String],
-  occasion: {
-    type: String,
-    enum: ['casual', 'business', 'romantic', 'celebration', 'anniversary', 'birthday', 'other']
-  },
-  contactInfo: {
-    name: {
-      type: String,
-      required: true
-    },
-    phone: {
-      type: String,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true
+class Reservation {
+  static async create(reservationData) {
+    const { user_id, restaurant_id, date, time, party_size, special_requests, dietary_restrictions, occasion, contact_name, contact_phone, contact_email } = reservationData;
+    
+    const confirmationCode = this.generateConfirmationCode();
+    
+    const sql = `
+      INSERT INTO reservations (user_id, restaurant_id, date, time, party_size, special_requests, dietary_restrictions, occasion, contact_name, contact_phone, contact_email, confirmation_code, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
+    `;
+    
+    const result = await run(sql, [user_id, restaurant_id, date, time, party_size, special_requests, dietary_restrictions, occasion, contact_name, contact_phone, contact_email, confirmationCode]);
+    return { id: result.id, confirmation_code: confirmationCode };
+  }
+
+  static async findById(id) {
+    const sql = 'SELECT * FROM reservations WHERE id = ? AND is_active = 1';
+    return await get(sql, [id]);
+  }
+
+  static async findByConfirmationCode(code) {
+    const sql = 'SELECT * FROM reservations WHERE confirmation_code = ? AND is_active = 1';
+    return await get(sql, [code]);
+  }
+
+  static async findByUser(user_id) {
+    const sql = 'SELECT * FROM reservations WHERE user_id = ? AND is_active = 1 ORDER BY date DESC, time DESC';
+    return await all(sql, [user_id]);
+  }
+
+  static async findByRestaurant(restaurant_id) {
+    const sql = 'SELECT * FROM reservations WHERE restaurant_id = ? AND is_active = 1 ORDER BY date DESC, time DESC';
+    return await all(sql, [restaurant_id]);
+  }
+
+  static async update(id, updateData) {
+    const fields = Object.keys(updateData).map(key => `${key} = ?`).join(', ');
+    const values = Object.values(updateData);
+    values.push(id);
+    
+    const sql = `UPDATE reservations SET ${fields}, updated_at = datetime('now') WHERE id = ?`;
+    return await run(sql, values);
+  }
+
+  static async confirm(id) {
+    const sql = 'UPDATE reservations SET status = "confirmed", confirmed_at = datetime("now"), updated_at = datetime("now") WHERE id = ?';
+    return await run(sql, [id]);
+  }
+
+  static async cancel(id, reason, cancelled_by) {
+    const sql = 'UPDATE reservations SET status = "cancelled", cancelled_at = datetime("now"), cancelled_by = ?, cancellation_reason = ?, updated_at = datetime("now") WHERE id = ?';
+    return await run(sql, [cancelled_by, reason, id]);
+  }
+
+  static async complete(id) {
+    const sql = 'UPDATE reservations SET status = "completed", updated_at = datetime("now") WHERE id = ?';
+    return await run(sql, [id]);
+  }
+
+  static async markNoShow(id) {
+    const sql = 'UPDATE reservations SET status = "no_show", updated_at = datetime("now") WHERE id = ?';
+    return await run(sql, [id]);
+  }
+
+  static async delete(id) {
+    const sql = 'UPDATE reservations SET is_active = 0 WHERE id = ?';
+    return await run(sql, [id]);
+  }
+
+  static generateConfirmationCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-  },
-  status: {
-    type: String,
-    enum: ['pending', 'confirmed', 'cancelled', 'completed', 'no_show'],
-    default: 'pending'
-  },
-  confirmationCode: {
-    type: String
-  },
-  confirmedAt: Date,
-  cancelledAt: Date,
-  cancelledBy: {
-    type: String,
-    enum: ['user', 'restaurant', 'system']
-  },
-  cancellationReason: String,
-  notes: {
-    restaurant: String,
-    user: String
-  },
-  isActive: {
-    type: Boolean,
-    default: true
+    return result;
   }
-}, {
-  timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
-});
+}
 
-// Virtual for reservation status
-reservationSchema.virtual('isUpcoming').get(function() {
-  const now = new Date();
-  const reservationDate = new Date(this.date);
-  return reservationDate > now && this.status === 'confirmed';
-});
-
-// Virtual for reservation status text
-reservationSchema.virtual('statusText').get(function() {
-  const statusMap = {
-    pending: 'Pendente',
-    confirmed: 'Confirmada',
-    cancelled: 'Cancelada',
-    completed: 'Concluída',
-    no_show: 'Não Compareceu'
-  };
-  return statusMap[this.status] || this.status;
-});
-
-// Generate confirmation code before saving
-reservationSchema.pre('save', function(next) {
-  if (!this.confirmationCode) {
-    this.confirmationCode = this.generateConfirmationCode();
-  }
-  next();
-});
-
-// Generate unique confirmation code
-reservationSchema.methods.generateConfirmationCode = function() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let result = '';
-  for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
-};
-
-// Confirm reservation
-reservationSchema.methods.confirm = function() {
-  this.status = 'confirmed';
-  this.confirmedAt = new Date();
-  return this.save();
-};
-
-// Cancel reservation
-reservationSchema.methods.cancel = function(reason, cancelledBy) {
-  this.status = 'cancelled';
-  this.cancelledAt = new Date();
-  this.cancellationReason = reason;
-  this.cancelledBy = cancelledBy;
-  return this.save();
-};
-
-// Complete reservation
-reservationSchema.methods.complete = function() {
-  this.status = 'completed';
-  return this.save();
-};
-
-// Mark as no show
-reservationSchema.methods.markNoShow = function() {
-  this.status = 'no_show';
-  return this.save();
-};
-
-// Indexes for search and performance
-reservationSchema.index({ user: 1, date: -1 });
-reservationSchema.index({ restaurant: 1, date: -1 });
-reservationSchema.index({ status: 1 });
-reservationSchema.index({ date: 1 });
-reservationSchema.index({ confirmationCode: 1 });
-reservationSchema.index({ isActive: 1 });
-
-// Prevent double booking (same restaurant, date, time)
-reservationSchema.index({ restaurant: 1, date: 1, time: 1, status: 1 });
-
-module.exports = mongoose.model('Reservation', reservationSchema);
+module.exports = Reservation;
