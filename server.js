@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 require('dotenv').config();
 
-const connectDB = require('./config/database');
+const { db } = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
 
 // Import routes
@@ -22,8 +22,7 @@ const reservationRoutes = require('./routes/reservations');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Connect to database
-connectDB();
+// Database is automatically connected when imported
 
 // Security middleware
 app.use(helmet());

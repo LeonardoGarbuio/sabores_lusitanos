@@ -10,8 +10,7 @@ services:
         value: production
       - key: PORT
         value: 10000
-      - key: MONGODB_URI
-        sync: false
+      # Database is created automatically (SQLite)
       - key: JWT_SECRET
         sync: false
       - key: JWT_EXPIRE

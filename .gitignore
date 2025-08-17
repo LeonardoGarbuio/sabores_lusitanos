@@ -74,6 +74,12 @@ jspm_packages/
 # Uploads directory (will be created at runtime)
 uploads/
 
+# Database files
+database/
+*.db
+*.sqlite
+*.sqlite3
+
 # OS generated files
 .DS_Store
 .DS_Store?
