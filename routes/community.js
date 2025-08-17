@@ -159,10 +159,10 @@ router.get('/stories/:slug', optionalAuth, async (req, res) => {
   }
 });
 
-// @desc    Create new story
+// @desc    Create new story (public)
 // @route   POST /api/community/stories
-// @access  Private
-router.post('/stories', protect, [
+// @access  Public
+router.post('/stories', [
   body('title')
     .trim()
     .isLength({ min: 2, max: 150 })
@@ -189,17 +189,11 @@ router.post('/stories', protect, [
       });
     }
 
-    // Set author
-    req.body.author = req.user._id;
-
-    // Set status based on user role
-    if (req.user.role === 'admin') {
-      req.body.status = 'published';
-      req.body.isPublished = true;
-    } else {
-      req.body.status = 'pending';
-      req.body.isPublished = false;
-    }
+    // Set default values for public stories
+    req.body.author = null; // Anonymous story
+    req.body.status = 'published';
+    req.body.isPublished = true;
+    req.body.isActive = true;
 
     const story = await Story.create(req.body);
 
