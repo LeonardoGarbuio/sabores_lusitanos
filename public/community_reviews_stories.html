@@ -37,7 +37,7 @@
                     <a href="cultural_food_map.html" class="text-text-secondary hover:text-primary transition-smooth">Mapa Gastronómico</a>
                     <a href="community_reviews_stories.html" class="text-primary font-semibold border-b-2 border-accent">Histórias Culturais</a>
                     <a href="events_cultural_calendar.html" class="text-text-secondary hover:text-primary transition-smooth">Eventos</a>
-                    <button class="btn-primary">Partilhar História</button>
+                    <button class="btn-primary" id="header-share-story-btn">Partilhar História</button>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -56,7 +56,7 @@
                     <a href="cultural_food_map.html" class="text-text-secondary">Mapa Gastronómico</a>
                     <a href="community_reviews_stories.html" class="text-primary font-semibold">Histórias Culturais</a>
                     <a href="events_cultural_calendar.html" class="text-text-secondary">Eventos</a>
-                    <button class="btn-primary w-full">Partilhar História</button>
+                    <button class="btn-primary w-full" id="mobile-share-story-btn">Partilhar História</button>
                 </div>
             </div>
         </nav>
@@ -764,17 +764,29 @@
 
         // Share story modal
         const shareStoryBtn = document.getElementById('share-story-btn');
+        const headerShareBtn = document.getElementById('header-share-story-btn');
+        const mobileShareBtn = document.getElementById('mobile-share-story-btn');
         const shareModal = document.getElementById('share-modal');
         const closeModalBtn = document.getElementById('close-modal');
         const closeModalBtn2 = document.getElementById('close-modal-btn');
 
         console.log('Share story button found:', shareStoryBtn);
+        console.log('Header share button found:', headerShareBtn);
+        console.log('Mobile share button found:', mobileShareBtn);
         console.log('Share modal found:', shareModal);
 
-        shareStoryBtn.addEventListener('click', function() {
-            console.log('Share story button clicked!');
+        // Function to open modal
+        function openShareModal() {
+            console.log('Opening share modal!');
             shareModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+        }
+
+        // Add event listeners to all share buttons
+        [shareStoryBtn, headerShareBtn, mobileShareBtn].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', openShareModal);
+            }
         });
 
         [closeModalBtn, closeModalBtn2].forEach(btn => {
