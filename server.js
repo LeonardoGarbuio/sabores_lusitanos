@@ -22,6 +22,9 @@ const reservationRoutes = require('./routes/reservations');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
+// Trust proxy for rate limiting (needed for Render)
+app.set('trust proxy', 1);
+
 // Database is automatically connected when imported
 
 // Security middleware
