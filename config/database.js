@@ -3,13 +3,10 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sabores_lusitanos', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       maxPoolSize: process.env.NODE_ENV === 'production' ? 10 : 5,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       bufferCommands: false,
-      bufferMaxEntries: 0,
     });
 
     console.log(`📦 MongoDB Connected: ${conn.connection.host}`);
