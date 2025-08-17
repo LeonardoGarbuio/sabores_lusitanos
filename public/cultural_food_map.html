@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mapa Gastronómico Cultural - Sabores Lusitanos</title>
+    <meta name="description" content="Explore as regiões gastronómicas de Portugal através de um mapa interativo com pratos tradicionais, ingredientes locais e histórias culturais" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fsaboreslu4754back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6"></script>
+</head>
+<body class="bg-background text-text-primary">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-surface shadow-subtle">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="8" fill="#1B4B73"/>
+                        <path d="M12 28C12 24.6863 14.6863 22 18 22H22C25.3137 22 28 24.6863 28 28" stroke="#D4A574" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="20" cy="16" r="4" stroke="#D4A574" stroke-width="2"/>
+                        <path d="M8 32H32" stroke="#C17B5A" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M10 8L30 8" stroke="#C17B5A" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <div>
+                        <h1 class="text-xl font-playfair font-bold text-primary">Sabores Lusitanos</h1>
+                        <p class="text-xs text-text-secondary">Hospitalidade Portuguesa</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="homepage.html" class="text-text-secondary hover:text-primary transition-smooth">Início</a>
+                    <a href="restaurant_discovery_hub.html" class="text-text-secondary hover:text-primary transition-smooth">Descobrir Restaurantes</a>
+                    <a href="cultural_food_map.html" class="text-primary font-semibold border-b-2 border-accent">Mapa Gastronómico</a>
+                    <a href="community_reviews_stories.html" class="text-text-secondary hover:text-primary transition-smooth">Histórias Culturais</a>
+                    <a href="events_cultural_calendar.html" class="text-text-secondary hover:text-primary transition-smooth">Eventos</a>
+                    <button class="btn-primary">Reservas</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden p-2" id="mobile-menu-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="lg:hidden hidden mt-4 pb-4 border-t border-surface" id="mobile-menu">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="homepage.html" class="text-text-secondary">Início</a>
+                    <a href="restaurant_discovery_hub.html" class="text-text-secondary">Descobrir Restaurantes</a>
+                    <a href="cultural_food_map.html" class="text-primary font-semibold">Mapa Gastronómico</a>
+                    <a href="community_reviews_stories.html" class="text-text-secondary">Histórias Culturais</a>
+                    <a href="events_cultural_calendar.html" class="text-text-secondary">Eventos</a>
+                    <button class="btn-primary w-full">Reservas</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-24 pb-16 bg-gradient-to-br from-primary/10 via-surface to-accent/10">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-playfair font-bold text-primary mb-6">
+                    Mapa Gastronómico<br />
+                    <span class="text-accent">de Portugal</span>
+                </h1>
+                <p class="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto mb-8">
+                    Descubra os sabores únicos de cada região portuguesa através de uma jornada interativa pela nossa rica herança culinária
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <div class="flex items-center space-x-2 text-primary">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="font-semibold">18 Distritos</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-secondary">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="font-semibold">200+ Pratos Regionais</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-accent">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                        </svg>
+                        <span class="font-semibold">500+ Restaurantes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- Interactive Portugal Map -->
+                <div class="lg:col-span-2">
+                    <div class="card p-8">
+                        <div class="mb-6">
+                            <h2 class="text-2xl font-playfair font-bold text-primary mb-2">Explore as Regiões</h2>
+                            <p class="text-text-secondary">Clique nas regiões para descobrir especialidades gastronómicas</p>
+                        </div>
+                        
+                        <!-- Portugal SVG Map -->
+                        <div class="relative bg-surface/50 rounded-lg p-8">
+                            <svg viewBox="0 0 500 600" class="w-full max-w-lg mx-auto" id="portugal-map">
+                                <!-- Portugal outline -->
+                                <path d="M150 80 L350 80 L370 130 L360 180 L350 230 L340 280 L330 330 L320 380 L310 430 L300 480 L200 480 L190 430 L180 380 L170 330 L160 280 L155 230 L150 180 L145 130 Z" fill="#1B4B73" opacity="0.1" stroke="#1B4B73" stroke-width="2"/>
+                                
+                                <!-- Minho Region -->
+                                <g class="region-group cursor-pointer" data-region="minho">
+                                    <path d="M150 80 L250 80 L260 110 L250 130 L200 130 L180 110 Z" fill="#C17B5A" opacity="0.7" stroke="#1B4B73" stroke-width="1.5" class="region-path hover:opacity-100 transition-smooth"/>
+                                    <circle cx="200" cy="105" r="8" fill="#D4A574" class="region-marker"/>
+                                    <text x="200" y="110" text-anchor="middle" class="text-xs font-semibold fill-primary">Minho</text>
+                                </g>
+                                
+                                <!-- Douro/Porto Region -->
+                                <g class="region-group cursor-pointer" data-region="porto">
+                                    <path d="M180 110 L280 110 L290 150 L280 170 L230 170 L210 150 Z" fill="#C17B5A" opacity="0.7" stroke="#1B4B73" stroke-width="1.5" class="region-path hover:opacity-100 transition-smooth"/>
+                                    <circle cx="235" cy="140" r="8" fill="#D4A574" class="region-marker"/>
+                                    <text x="235" y="145" text-anchor="middle" class="text-xs font-semibold fill-primary">Porto</text>
+                                </g>
+                                
+                                <!-- Centro Region -->
+                                <g class="region-group cursor-pointer" data-region="centro">
+                                    <path d="M210 150 L310 150 L320 200 L310 250 L260 250 L240 200 Z" fill="#C17B5A" opacity="0.7" stroke="#1B4B73" stroke-width="1.5" class="region-path hover:opacity-100 transition-smooth"/>
+                                    <circle cx="265" cy="200" r="8" fill="#D4A574" class="region-marker"/>
+                                    <text x="265" y="205" text-anchor="middle" class="text-xs font-semibold fill-primary">Centro</text>
+                                </g>
+                                
+                                <!-- Lisboa Region -->
+                                <g class="region-group cursor-pointer" data-region="lisboa">
+                                    <path d="M240 200 L320 200 L330 260 L320 300 L270 300 L250 260 Z" fill="#C17B5A" opacity="0.7" stroke="#1B4B73" stroke-width="1.5" class="region-path hover:opacity-100 transition-smooth"/>
+                                    <circle cx="285" cy="250" r="8" fill="#D4A574" class="region-marker"/>
+                                    <text x="285" y="255" text-anchor="middle" class="text-xs font-semibold fill-primary">Lisboa</text>
+                                </g>
+                                
+                                <!-- Alentejo Region -->
+                                <g class="region-group cursor-pointer" data-region="alentejo">
+                                    <path d="M250 260 L340 260 L350 350 L340 400 L290 400 L270 350 Z" fill="#C17B5A" opacity="0.7" stroke="#1B4B73" stroke-width="1.5" class="region-path hover:opacity-100 transition-smooth"/>
+                                    <circle cx="300" cy="330" r="8" fill="#D4A574" class="region-marker"/>
+                                    <text x="300" y="335" text-anchor="middle" class="text-xs font-semibold fill-primary">Alentejo</text>
+                                </g>
+                                
+                                <!-- Algarve Region -->
+                                <g class="region-group cursor-pointer" data-region="algarve">
+                                    <path d="M270 350 L350 350 L360 420 L350 450 L300 450 L280 420 Z" fill="#C17B5A" opacity="0.7" stroke="#1B4B73" stroke-width="1.5" class="region-path hover:opacity-100 transition-smooth"/>
+                                    <circle cx="315" cy="400" r="8" fill="#D4A574" class="region-marker"/>
+                                    <text x="315" y="405" text-anchor="middle" class="text-xs font-semibold fill-primary">Algarve</text>
+                                </g>
+                                
+                                <!-- Restaurant Markers -->
+                                <!-- Azulejo pattern markers for traditional restaurants -->
+                                <g class="restaurant-marker" data-restaurant="taberna-real-fado">
+                                    <rect x="280" y="245" width="10" height="10" fill="#1B4B73" rx="1"/>
+                                    <rect x="282" y="247" width="6" height="6" fill="#D4A574" rx="0.5"/>
+                                </g>
+                                
+                                <g class="restaurant-marker" data-restaurant="quinta-sabores">
+                                    <rect x="195" y="100" width="10" height="10" fill="#1B4B73" rx="1"/>
+                                    <rect x="197" y="102" width="6" height="6" fill="#D4A574" rx="0.5"/>
+                                </g>
+                                
+                                <!-- Modern geometric markers for contemporary restaurants -->
+                                <g class="restaurant-marker" data-restaurant="alma-lusitana">
+                                    <polygon points="230,135 240,135 235,145" fill="#C17B5A"/>
+                                    <circle cx="235" cy="138" r="2" fill="#D4A574"/>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- Map Legend -->
+                        <div class="mt-6 p-4 bg-surface rounded-lg">
+                            <h3 class="font-playfair font-bold text-primary mb-3">Legenda</h3>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 bg-primary rounded-sm"></div>
+                                    <span>Restaurantes Tradicionais</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 bg-secondary rounded-sm"></div>
+                                    <span>Restaurantes Contemporâneos</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 bg-accent rounded-full"></div>
+                                    <span>Centros Regionais</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-4 h-4 bg-success rounded-sm"></div>
+                                    <span>Festivais Gastronómicos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Region Information Panel -->
+                <div class="lg:col-span-1">
+                    <div class="card p-6 sticky top-32" id="region-info-panel">
+                        <div id="default-info">
+                            <h3 class="text-2xl font-playfair font-bold text-primary mb-4">Explore Portugal</h3>
+                            <p class="text-text-secondary mb-6">
+                                Selecione uma região no mapa para descobrir suas especialidades gastronómicas, ingredientes locais e histórias culturais.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-surface rounded-lg">
+                                    <span class="font-semibold text-primary">Regiões</span>
+                                    <span class="text-2xl font-bold text-secondary">6</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-surface rounded-lg">
+                                    <span class="font-semibold text-primary">Pratos Típicos</span>
+                                    <span class="text-2xl font-bold text-secondary">200+</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-surface rounded-lg">
+                                    <span class="font-semibold text-primary">Restaurantes</span>
+                                    <span class="text-2xl font-bold text-secondary">500+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic region content will be inserted here -->
+                        <div id="region-content" class="hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seasonal Ingredients Section -->
+    <section class="py-20 bg-surface">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-playfair font-bold text-primary mb-6">
+                    Ingredientes Sazonais
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Descubra os ingredientes frescos de cada estação e onde encontrá-los nos melhores restaurantes
+                </p>
+            </div>
+
+            <!-- Season Selector -->
+            <div class="flex justify-center mb-12">
+                <div class="bg-white rounded-lg p-2 shadow-subtle">
+                    <button class="season-btn active px-6 py-3 rounded-lg font-semibold transition-smooth" data-season="inverno">Inverno</button>
+                    <button class="season-btn px-6 py-3 rounded-lg font-semibold transition-smooth" data-season="primavera">Primavera</button>
+                    <button class="season-btn px-6 py-3 rounded-lg font-semibold transition-smooth" data-season="verao">Verão</button>
+                    <button class="season-btn px-6 py-3 rounded-lg font-semibold transition-smooth" data-season="outono">Outono</button>
+                </div>
+            </div>
+
+            <!-- Seasonal Content -->
+            <div id="seasonal-content">
+                <!-- Winter Content (Default) -->
+                <div class="season-content" data-season="inverno">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="card group">
+                            <div class="relative overflow-hidden rounded-t-lg">
+                                <img src="https://images.pexels.com/photos/4198015/pexels-photo-4198015.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Couve-galega" class="w-full h-48 object-cover group-hover:scale-105 transition-complex" onerror="this.src='https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=800&auto=format&fit=crop'; this.onerror=null;" />
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                        Dezembro - Fevereiro
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-playfair font-bold text-primary mb-3">Couve-Galega</h3>
+                                <p class="text-text-secondary mb-4">
+                                    Ingrediente essencial do caldo verde, a couve-galega atinge o seu melhor sabor nos meses frios de inverno.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-accent font-semibold">Minho, Douro</span>
+                                    <a href="restaurant_discovery_hub.html" class="text-primary font-semibold hover:text-accent transition-smooth">
+                                        Ver Restaurantes →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card group">
+                            <div class="relative overflow-hidden rounded-t-lg">
+                                <img src="https://images.pixabay.com/photo-2016/10/23/17/30/chestnuts-1763283_1280.jpg" alt="Castanhas" class="w-full h-48 object-cover group-hover:scale-105 transition-complex" onerror="this.src='https://images.pexels.com/photos/4198015/pexels-photo-4198015.jpeg?auto=compress&cs=tinysrgb&w=800'; this.onerror=null;" />
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                        Novembro - Janeiro
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-playfair font-bold text-primary mb-3">Castanhas</h3>
+                                <p class="text-text-secondary mb-4">
+                                    Símbolo do inverno português, as castanhas assadas aquecem as ruas e enriquecem pratos tradicionais.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-accent font-semibold">Trás-os-Montes</span>
+                                    <a href="restaurant_discovery_hub.html" class="text-primary font-semibold hover:text-accent transition-smooth">
+                                        Ver Restaurantes →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card group">
+                            <div class="relative overflow-hidden rounded-t-lg">
+                                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Chouriço" class="w-full h-48 object-cover group-hover:scale-105 transition-complex" onerror="this.src='https://images.pixabay.com/photo-2016/10/23/17/30/chestnuts-1763283_1280.jpg'; this.onerror=null;" />
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                        Todo o Ano
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-playfair font-bold text-primary mb-3">Chouriço</h3>
+                                <p class="text-text-secondary mb-4">
+                                    Enchido tradicional que aquece os pratos de inverno, desde o cozido à portuguesa até às migas alentejanas.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-accent font-semibold">Alentejo, Beira</span>
+                                    <a href="restaurant_discovery_hub.html" class="text-primary font-semibold hover:text-accent transition-smooth">
+                                        Ver Restaurantes →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cultural Stories Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-playfair font-bold text-primary mb-6">
+                    Histórias Gastronómicas
+                </h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Conheça as origens e tradições por trás dos pratos mais emblemáticos de Portugal
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Featured Story -->
+                <article class="card group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-t-lg">
+                        <img src="https://images.pexels.com/photos/5490778/pexels-photo-5490778.jpeg?auto=compress&cs=tinysrgb&w=800" alt="História do Bacalhau" class="w-full h-64 object-cover group-hover:scale-105 transition-complex" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop'; this.onerror=null;" />
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                                História Cultural
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-playfair font-bold text-primary mb-3 group-hover:text-accent transition-smooth">
+                            A História do Bacalhau: De Terra Nova às Mesas Portuguesas
+                        </h3>
+                        <p class="text-text-secondary mb-4">
+                            Descubra como o "fiel amigo" se tornou o prato mais icónico de Portugal, atravessando oceanos e gerações para chegar às nossas mesas com 365 receitas diferentes.
+                        </p>
+                        <div class="flex items-center justify-between text-sm text-text-secondary">
+                            <span>15 de Dezembro, 2025</span>
+                            <span>8 min de leitura</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Story List -->
+                <div class="space-y-6">
+                    <article class="flex gap-4 group cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=200&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Pastéis de Nata" class="w-24 h-24 object-cover rounded-lg flex-shrink-0 group-hover:scale-105 transition-smooth" onerror="this.src='https://images.pexels.com/photos/5490778/pexels-photo-5490778.jpeg?auto=compress&cs=tinysrgb&w=200'; this.onerror=null;" />
+                        <div class="flex-1">
+                            <h4 class="font-playfair font-bold text-primary mb-2 group-hover:text-accent transition-smooth">
+                                O Segredo dos Pastéis de Belém
+                            </h4>
+                            <p class="text-sm text-text-secondary mb-2">
+                                A receita secreta que nasceu no Mosteiro dos Jerónimos e conquistou o mundo...
+                            </p>
+                            <span class="text-xs text-text-secondary">12 de Dezembro, 2025</span>
+                        </div>
+                    </article>
+
+                    <article class="flex gap-4 group cursor-pointer">
+                        <img src="https://images.pixabay.com/photo-2020/10/01/19/10/seafood-5620529_1280.jpg" alt="Cataplana" class="w-24 h-24 object-cover rounded-lg flex-shrink-0 group-hover:scale-105 transition-smooth" onerror="this.src='https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=200&auto=format&fit=crop'; this.onerror=null;" />
+                        <div class="flex-1">
+                            <h4 class="font-playfair font-bold text-primary mb-2 group-hover:text-accent transition-smooth">
+                                Cataplana: O Tesouro Culinário do Algarve
+                            </h4>
+                            <p class="text-sm text-text-secondary mb-2">
+                                Como um utensílio árabe se tornou símbolo da cozinha algarvia...
+                            </p>
+                            <span class="text-xs text-text-secondary">10 de Dezembro, 2025</span>
+                        </div>
+                    </article>
+
+                    <article class="flex gap-4 group cursor-pointer">
+                        <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Vinho do Porto" class="w-24 h-24 object-cover rounded-lg flex-shrink-0 group-hover:scale-105 transition-smooth" onerror="this.src='https://images.pixabay.com/photo-2020/10/01/19/10/seafood-5620529_1280.jpg'; this.onerror=null;" />
+                        <div class="flex-1">
+                            <h4 class="font-playfair font-bold text-primary mb-2 group-hover:text-accent transition-smooth">
+                                Vinho do Porto: Ouro Líquido do Douro
+                            </h4>
+                            <p class="text-sm text-text-secondary mb-2">
+                                A história do vinho fortificado que conquistou o mundo desde o século XVII...
+                            </p>
+                            <span class="text-xs text-text-secondary">8 de Dezembro, 2025</span>
+                        </div>
+                    </article>
+
+                    <div class="pt-4">
+                        <a href="community_reviews_stories.html" class="text-accent font-semibold hover:text-primary transition-smooth">
+                            Ver Todas as Histórias →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cultural Calendar Integration -->
+    <section class="py-20 bg-primary text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-playfair font-bold mb-6">
+                    Festivais Gastronómicos
+                </h2>
+                <p class="text-lg opacity-90 max-w-3xl mx-auto">
+                    Participe nos festivais e celebrações que mantêm vivas as tradições culinárias portuguesas
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Festival 1 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-smooth">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                            Janeiro 2025
+                        </div>
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-bold mb-3">Festival do Bacalhau</h3>
+                    <p class="text-white/80 mb-4">
+                        Celebração anual em Ílhavo dedicada ao "fiel amigo" com degustações e showcooking.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-accent font-semibold">Ílhavo, Aveiro</span>
+                        <a href="events_cultural_calendar.html" class="text-white hover:text-accent transition-smooth">
+                            Saber Mais →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Festival 2 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-smooth">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                            Março 2025
+                        </div>
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-bold mb-3">Feira dos Enchidos</h3>
+                    <p class="text-white/80 mb-4">
+                        Tradição centenária de Montalegre com os melhores enchidos e fumados da região.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-accent font-semibold">Montalegre</span>
+                        <a href="events_cultural_calendar.html" class="text-white hover:text-accent transition-smooth">
+                            Saber Mais →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Festival 3 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-smooth md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                            Setembro 2025
+                        </div>
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-bold mb-3">Vindimas do Douro</h3>
+                    <p class="text-white/80 mb-4">
+                        Celebração da colheita das uvas com provas de vinho e gastronomia duriense.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-accent font-semibold">Vale do Douro</span>
+                        <a href="events_cultural_calendar.html" class="text-white hover:text-accent transition-smooth">
+                            Saber Mais →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="events_cultural_calendar.html" class="btn-accent text-lg px-8 py-4">
+                    Ver Calendário Completo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-text-primary text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="8" fill="#D4A574"/>
+                            <path d="M12 28C12 24.6863 14.6863 22 18 22H22C25.3137 22 28 24.6863 28 28" stroke="#1B4B73" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="20" cy="16" r="4" stroke="#1B4B73" stroke-width="2"/>
+                            <path d="M8 32H32" stroke="#C17B5A" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M10 8L30 8" stroke="#C17B5A" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <div>
+                            <h3 class="text-xl font-playfair font-bold">Sabores Lusitanos</h3>
+                            <p class="text-sm opacity-75">Hospitalidade Portuguesa</p>
+                        </div>
+                    </div>
+                    <p class="text-white/80 mb-6 max-w-md">
+                        Conectando estabelecimentos autênticos portugueses com entusiastas da gastronomia através de experiências culturais genuínas.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div>
+                    <h4 class="font-playfair font-bold text-lg mb-4">Navegação</h4>
+                    <ul class="space-y-2">
+                        <li><a href="homepage.html" class="text-white/80 hover:text-accent transition-smooth">Início</a></li>
+                        <li><a href="restaurant_discovery_hub.html" class="text-white/80 hover:text-accent transition-smooth">Descobrir Restaurantes</a></li>
+                        <li><a href="cultural_food_map.html" class="text-white/80 hover:text-accent transition-smooth">Mapa Gastronómico</a></li>
+                        <li><a href="community_reviews_stories.html" class="text-white/80 hover:text-accent transition-smooth">Histórias Culturais</a></li>
+                        <li><a href="events_cultural_calendar.html" class="text-white/80 hover:text-accent transition-smooth">Eventos</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-playfair font-bold text-lg mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-white/80">
+                        <li>info@saboreslusitanos.pt</li>
+                        <li>+351 21 123 4567</li>
+                        <li>Lisboa, Portugal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/20 mt-12 pt-8 text-center text-white/60">
+                <p>&copy; 2025 Sabores Lusitanos. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Region data
+        const regionData = {
+            minho: {
+                name: 'Minho',
+                specialty: 'Vinho Verde e Caldo Verde',
+                description: 'Região conhecida pelos seus vinhos frescos e pela tradicional sopa de couve-galega. O Minho preserva tradições culinárias centenárias com ingredientes locais.',
+                dishes: ['Caldo Verde', 'Rojões à Minhota', 'Bacalhau à Narcisa', 'Broa de Milho'],
+                ingredients: ['Couve-galega', 'Chouriço', 'Vinho Verde', 'Broa de Milho'],
+                restaurants: 45,
+                festivals: 8
+            },
+            porto: {
+                name: 'Porto',
+                specialty: 'Francesinha e Tripas à Moda do Porto',
+                description: 'Cidade invicta famosa pela sua gastronomia robusta e vinhos do Porto. Berço de pratos icónicos que refletem o caráter forte dos portuenses.',
+                dishes: ['Francesinha', 'Tripas à Moda do Porto', 'Bifana', 'Pastéis de Chaves'],
+                ingredients: ['Linguiça', 'Queijo', 'Cerveja', 'Tripas'],
+                restaurants: 78,
+                festivals: 12
+            },
+            centro: {
+                name: 'Centro',
+                specialty: 'Leitão da Bairrada e Queijo da Serra',
+                description: 'Região central com tradições gastronómicas centenárias, famosa pelos seus queijos artesanais e pelo leitão assado em forno de lenha.',
+                dishes: ['Leitão da Bairrada', 'Queijo da Serra', 'Chanfana', 'Ovos Moles'],
+                ingredients: ['Queijo da Serra', 'Leitão', 'Espumante', 'Ovos'],
+                restaurants: 62,
+                festivals: 15
+            },
+            lisboa: {
+                name: 'Lisboa',
+                specialty: 'Pastéis de Nata e Bacalhau à Brás',
+                description: 'Capital portuguesa com uma rica diversidade culinária que combina tradições regionais com influências cosmopolitas.',
+                dishes: ['Pastéis de Nata', 'Bacalhau à Brás', 'Bifana', 'Ginjinha'],
+                ingredients: ['Bacalhau', 'Ovos', 'Batata', 'Ginja'],
+                restaurants: 156,
+                festivals: 20
+            },
+            alentejo: {
+                name: 'Alentejo',
+                specialty: 'Migas e Açorda',
+                description: 'Planície alentejana com pratos tradicionais e vinhos encorpados. Gastronomia rústica que aproveita ingredientes simples de forma sublime.',
+                dishes: ['Migas', 'Açorda', 'Ensopado de Borrego', 'Sericaia'],
+                ingredients: ['Pão Alentejano', 'Azeite', 'Coentros', 'Porco Preto'],
+                restaurants: 89,
+                festivals: 18
+            },
+            algarve: {
+                name: 'Algarve',
+                specialty: 'Cataplana e Caldeirada',
+                description: 'Região costeira famosa pelos seus pratos de peixe e marisco frescos, preparados com técnicas tradicionais e influências mouriscas.',
+                dishes: ['Cataplana', 'Caldeirada', 'Conquilhas', 'Dom Rodrigo'],
+                ingredients: ['Amêijoas', 'Lingueirão', 'Peixe Fresco', 'Amêndoa'],
+                restaurants: 94,
+                festivals: 22
+            }
+        };
+
+        // Region interaction
+        document.querySelectorAll('.region-group').forEach(region => {
+            region.addEventListener('click', function() {
+                const regionName = this.dataset.region;
+                showRegionInfo(regionName);
+                
+                // Update visual state
+                document.querySelectorAll('.region-path').forEach(path => {
+                    path.style.opacity = '0.7';
+                });
+                this.querySelector('.region-path').style.opacity = '1';
+            });
+
+            region.addEventListener('mouseenter', function() {
+                this.querySelector('.region-path').style.opacity = '0.9';
+            });
+
+            region.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.querySelector('.region-path').style.opacity = '0.7';
+                }
+            });
+        });
+
+        function showRegionInfo(regionName) {
+            const data = regionData[regionName];
+            if (!data) return;
+
+            const defaultInfo = document.getElementById('default-info');
+            const regionContent = document.getElementById('region-content');
+
+            defaultInfo.classList.add('hidden');
+            regionContent.classList.remove('hidden');
+
+            regionContent.innerHTML = `
+                <div class="mb-6">
+                    <img src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                         alt="${data.name}" 
+                         class="w-full h-32 object-cover rounded-lg mb-4"
+                         onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=400&auto=format&fit=crop'; this.onerror=null;">
+                    <h3 class="text-2xl font-playfair font-bold text-primary mb-2">${data.name}</h3>
+                    <p class="text-lg font-semibold text-secondary mb-3">${data.specialty}</p>
+                    <p class="text-text-secondary text-sm mb-4">${data.description}</p>
+                </div>
+
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <h4 class="font-semibold text-primary mb-2">Pratos Típicos</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${data.dishes.map(dish => `<span class="bg-accent/20 text-primary px-2 py-1 rounded text-sm">${dish}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-primary mb-2">Ingredientes Locais</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${data.ingredients.map(ingredient => `<span class="bg-secondary/20 text-secondary px-2 py-1 rounded text-sm">${ingredient}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="text-center p-3 bg-surface rounded-lg">
+                        <div class="text-xl font-bold text-primary">${data.restaurants}</div>
+                        <div class="text-xs text-text-secondary">Restaurantes</div>
+                    </div>
+                    <div class="text-center p-3 bg-surface rounded-lg">
+                        <div class="text-xl font-bold text-secondary">${data.festivals}</div>
+                        <div class="text-xs text-text-secondary">Festivais</div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <a href="restaurant_discovery_hub.html" class="btn-primary w-full text-center block">
+                        Ver Restaurantes
+                    </a>
+                    <a href="events_cultural_calendar.html" class="btn-secondary w-full text-center block">
+                        Festivais da Região
+                    </a>
+                </div>
+            `;
+        }
+
+        // Season selector
+        document.querySelectorAll('.season-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.season-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-primary', 'text-white');
+                    b.classList.add('text-text-secondary');
+                });
+                
+                this.classList.add('active', 'bg-primary', 'text-white');
+                this.classList.remove('text-text-secondary');
+
+                // Show seasonal content (for demo, we'll just show winter content)
+                // In a real implementation, you would have different content for each season
+            });
+        });
+
+        // Initialize active season button
+        document.querySelector('.season-btn.active').classList.add('bg-primary', 'text-white');
+        document.querySelectorAll('.season-btn:not(.active)').forEach(btn => {
+            btn.classList.add('text-text-secondary');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.classList.add('bg-white/98');
+            } else {
+                header.classList.remove('bg-white/98');
+            }
+        });
+    </script>
+</body>
+</html>

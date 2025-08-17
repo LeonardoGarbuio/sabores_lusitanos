@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Descobrir Restaurantes - Sabores Lusitanos</title>
+    <meta name="description" content="Descubra restaurantes portugueses autênticos com filtros avançados por região, especialidade e experiência cultural" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fsaboreslu4754back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.6"></script>
+</head>
+<body class="bg-background text-text-primary">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-surface shadow-subtle">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="8" fill="#1B4B73"/>
+                        <path d="M12 28C12 24.6863 14.6863 22 18 22H22C25.3137 22 28 24.6863 28 28" stroke="#D4A574" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="20" cy="16" r="4" stroke="#D4A574" stroke-width="2"/>
+                        <path d="M8 32H32" stroke="#C17B5A" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M10 8L30 8" stroke="#C17B5A" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <div>
+                        <h1 class="text-xl font-playfair font-bold text-primary">Sabores Lusitanos</h1>
+                        <p class="text-xs text-text-secondary">Hospitalidade Portuguesa</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="homepage.html" class="text-text-secondary hover:text-primary transition-smooth">Início</a>
+                    <a href="restaurant_discovery_hub.html" class="text-primary font-semibold border-b-2 border-accent">Descobrir Restaurantes</a>
+                    <a href="cultural_food_map.html" class="text-text-secondary hover:text-primary transition-smooth">Mapa Gastronómico</a>
+                    <a href="community_reviews_stories.html" class="text-text-secondary hover:text-primary transition-smooth">Histórias Culturais</a>
+                    <a href="events_cultural_calendar.html" class="text-text-secondary hover:text-primary transition-smooth">Eventos</a>
+                    <button class="btn-primary">Reservas</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden p-2" id="mobile-menu-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="lg:hidden hidden mt-4 pb-4 border-t border-surface" id="mobile-menu">
+                <div class="flex flex-col space-y-4 pt-4">
+                    <a href="homepage.html" class="text-text-secondary">Início</a>
+                    <a href="restaurant_discovery_hub.html" class="text-primary font-semibold">Descobrir Restaurantes</a>
+                    <a href="cultural_food_map.html" class="text-text-secondary">Mapa Gastronómico</a>
+                    <a href="community_reviews_stories.html" class="text-text-secondary">Histórias Culturais</a>
+                    <a href="events_cultural_calendar.html" class="text-text-secondary">Eventos</a>
+                    <button class="btn-primary w-full">Reservas</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        <!-- Hero Search Section -->
+        <section class="bg-gradient-to-r from-primary to-primary-600 text-white py-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h1 class="text-3xl md:text-5xl font-playfair font-bold mb-6">
+                        Descubra Restaurantes Portugueses Autênticos
+                    </h1>
+                    <p class="text-lg md:text-xl mb-8 text-white/90">
+                        Explore estabelecimentos que preservam a verdadeira essência da gastronomia portuguesa
+                    </p>
+                    
+                    <!-- Advanced Search Bar -->
+                    <div class="bg-white rounded-lg p-6 shadow-elevated">
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex-1">
+                                <input type="text" placeholder="Ex: restaurantes servindo cozido à portuguesa tradicional..." class="input-field text-text-primary" id="main-search" />
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn-accent px-6 py-3" id="search-btn">
+                                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                    Pesquisar
+                                </button>
+                                <button class="border-2 border-accent text-accent px-4 py-3 rounded-lg hover:bg-accent hover:text-primary transition-smooth" id="map-toggle">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m0 0L9 7"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Filters -->
+        <section class="py-6 bg-surface border-b border-surface">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <button class="quick-filter active" data-filter="authentic">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Mais Autêntico
+                    </button>
+                    <button class="quick-filter" data-filter="rated">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        Melhor Avaliado
+                    </button>
+                    <button class="quick-filter" data-filter="cultural">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                        </svg>
+                        Experiência Cultural
+                    </button>
+                    <button class="quick-filter" data-filter="nearby">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                        Próximo de Mim
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Discovery Content -->
+        <section class="py-8">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Filters Sidebar -->
+                    <aside class="lg:w-80 flex-shrink-0">
+                        <div class="card p-6 sticky top-32">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-xl font-playfair font-bold text-primary">Filtros</h2>
+                                <button class="text-accent hover:text-primary transition-smooth text-sm" id="clear-filters">
+                                    Limpar Tudo
+                                </button>
+                            </div>
+
+                            <!-- Mobile Filter Toggle -->
+                            <button class="lg:hidden w-full btn-secondary mb-4" id="mobile-filter-toggle">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"/>
+                                </svg>
+                                Filtros Avançados
+                            </button>
+
+                            <div class="space-y-6" id="filter-content">
+                                <!-- Portuguese Regions -->
+                                <div class="filter-group">
+                                    <h3 class="font-semibold text-primary mb-3 flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Regiões Portuguesas
+                                    </h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="region-filter" value="minho" checked />
+                                            <span class="ml-2 text-sm">Minho</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="region-filter" value="douro" />
+                                            <span class="ml-2 text-sm">Douro</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="region-filter" value="beiras" />
+                                            <span class="ml-2 text-sm">Beiras</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="region-filter" value="lisboa" checked />
+                                            <span class="ml-2 text-sm">Lisboa</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="region-filter" value="alentejo" />
+                                            <span class="ml-2 text-sm">Alentejo</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="region-filter" value="algarve" />
+                                            <span class="ml-2 text-sm">Algarve</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Cuisine Types -->
+                                <div class="filter-group">
+                                    <h3 class="font-semibold text-primary mb-3 flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                        </svg>
+                                        Tipos de Cozinha
+                                    </h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="radio" name="cuisine-type" value="tradicional" checked />
+                                            <span class="ml-2 text-sm">Tradicional</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="radio" name="cuisine-type" value="contemporanea" />
+                                            <span class="ml-2 text-sm">Contemporânea</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="radio" name="cuisine-type" value="fusion" />
+                                            <span class="ml-2 text-sm">Fusão</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="radio" name="cuisine-type" value="all" />
+                                            <span class="ml-2 text-sm">Todos os Tipos</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Specialty Dishes -->
+                                <div class="filter-group">
+                                    <h3 class="font-semibold text-primary mb-3 flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        Especialidades
+                                    </h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="specialty-filter" value="bacalhau" />
+                                            <span class="ml-2 text-sm">Preparações de Bacalhau</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="specialty-filter" value="seafood" />
+                                            <span class="ml-2 text-sm">Frutos do Mar</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="specialty-filter" value="grilled" />
+                                            <span class="ml-2 text-sm">Carnes Grelhadas</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="specialty-filter" value="vegetarian" />
+                                            <span class="ml-2 text-sm">Vegetariano Português</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Authenticity Levels -->
+                                <div class="filter-group">
+                                    <h3 class="font-semibold text-primary mb-3 flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                                        </svg>
+                                        Nível de Autenticidade
+                                    </h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="authenticity-filter" value="traditional-family" />
+                                            <span class="ml-2 text-sm">Família Tradicional</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="authenticity-filter" value="innovative-chef" />
+                                            <span class="ml-2 text-sm">Chef Inovador</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="authenticity-filter" value="modern-fusion" />
+                                            <span class="ml-2 text-sm">Fusão Moderna</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Dining Experiences -->
+                                <div class="filter-group">
+                                    <h3 class="font-semibold text-primary mb-3 flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                        </svg>
+                                        Experiências Gastronómicas
+                                    </h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="experience-filter" value="fado-nights" />
+                                            <span class="ml-2 text-sm">Noites de Fado</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="experience-filter" value="wine-tastings" />
+                                            <span class="ml-2 text-sm">Provas de Vinho</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="experience-filter" value="cooking-classes" />
+                                            <span class="ml-2 text-sm">Aulas de Culinária</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Price Range -->
+                                <div class="filter-group">
+                                    <h3 class="font-semibold text-primary mb-3 flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.51-1.31c-.562-.649-1.413-1.076-2.353-1.253V5z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Faixa de Preço
+                                    </h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="price-filter" value="budget" />
+                                            <span class="ml-2 text-sm">€ - Económico (até 25€)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="price-filter" value="moderate" />
+                                            <span class="ml-2 text-sm">€€ - Moderado (25€-50€)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="price-filter" value="upscale" />
+                                            <span class="ml-2 text-sm">€€€ - Requintado (50€-100€)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="price-filter" value="luxury" />
+                                            <span class="ml-2 text-sm">€€€€ - Luxo (100€+)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Restaurant Results -->
+                    <div class="flex-1">
+                        <!-- Results Header -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                            <div>
+                                <h2 class="text-2xl font-playfair font-bold text-primary mb-2">
+                                    Restaurantes Descobertos
+                                </h2>
+                                <p class="text-text-secondary">
+                                    <span id="results-count">24</span> restaurantes encontrados
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-4 mt-4 sm:mt-0">
+                                <select class="input-field text-sm" id="sort-select">
+                                    <option value="relevance">Mais Relevante</option>
+                                    <option value="rating">Melhor Avaliação</option>
+                                    <option value="price-low">Preço: Menor para Maior</option>
+                                    <option value="price-high">Preço: Maior para Menor</option>
+                                    <option value="distance">Distância</option>
+                                </select>
+                                <div class="flex border border-surface rounded-lg">
+                                    <button class="p-2 bg-accent text-primary rounded-l-lg" id="grid-view">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="p-2 bg-white text-text-secondary rounded-r-lg border-l border-surface" id="list-view">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Restaurant Grid -->
+                        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6" id="restaurant-grid">
+                            <!-- Restaurant Card 1 -->
+                            <article class="card group cursor-pointer hover:scale-105 transition-complex">
+                                <div class="relative overflow-hidden rounded-t-lg">
+                                    <img src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Taberna do Real Fado" class="w-full h-48 object-cover group-hover:scale-110 transition-complex" onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop'; this.onerror=null;" />
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                                            3ª Geração
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-4 right-4">
+                                        <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-smooth">
+                                            <svg class="w-4 h-4 text-text-secondary hover:text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="text-xl font-playfair font-bold text-primary group-hover:text-accent transition-smooth">
+                                            Taberna do Real Fado
+                                        </h3>
+                                        <div class="flex items-center text-warning">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <span class="ml-1 text-sm font-semibold">4.8</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-text-secondary text-sm mb-2 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Alfama, Lisboa
+                                    </p>
+                                    <p class="text-text-secondary mb-4 text-sm">
+                                        <strong class="text-primary">Especialidade:</strong> Bacalhau à Brás tradicional<br />
+                                        <strong class="text-secondary">História:</strong> Família Pereira preserva receitas há três gerações com fado autêntico.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-accent font-semibold text-lg">€€</span>
+                                            <span class="text-xs text-text-secondary">25-40€</span>
+                                        </div>
+                                        <a href="restaurant_profile_pages.html" class="btn-primary text-sm px-4 py-2">
+                                            Ver Detalhes
+                                        </a>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-surface">
+                                        <div class="flex items-center text-xs text-text-secondary">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                            </svg>
+                                            Noites de Fado • Reservas disponíveis
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Restaurant Card 2 -->
+                            <article class="card group cursor-pointer hover:scale-105 transition-complex">
+                                <div class="relative overflow-hidden rounded-t-lg">
+                                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Quinta dos Sabores" class="w-full h-48 object-cover group-hover:scale-110 transition-complex" onerror="this.src='https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=800'; this.onerror=null;" />
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-success text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                            Chef Premiado
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-4 right-4">
+                                        <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-smooth">
+                                            <svg class="w-4 h-4 text-text-secondary hover:text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="text-xl font-playfair font-bold text-primary group-hover:text-accent transition-smooth">
+                                            Quinta dos Sabores
+                                        </h3>
+                                        <div class="flex items-center text-warning">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <span class="ml-1 text-sm font-semibold">4.9</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-text-secondary text-sm mb-2 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Braga, Minho
+                                    </p>
+                                    <p class="text-text-secondary mb-4 text-sm">
+                                        <strong class="text-primary">Especialidade:</strong> Cozido à portuguesa contemporâneo<br />
+                                        <strong class="text-secondary">História:</strong> Chef Ana Silva preserva receitas minhotas com ingredientes locais.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-accent font-semibold text-lg">€€€</span>
+                                            <span class="text-xs text-text-secondary">50-75€</span>
+                                        </div>
+                                        <a href="restaurant_profile_pages.html" class="btn-primary text-sm px-4 py-2">
+                                            Ver Detalhes
+                                        </a>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-surface">
+                                        <div class="flex items-center text-xs text-text-secondary">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                            </svg>
+                                            Provas de Vinho • Aulas de Culinária
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Restaurant Card 3 -->
+                            <article class="card group cursor-pointer hover:scale-105 transition-complex">
+                                <div class="relative overflow-hidden rounded-t-lg">
+                                    <img src="https://images.pixabay.com/photo-2016/11/18/14/39/restaurant-1834294_1280.jpg" alt="Alma Lusitana" class="w-full h-48 object-cover group-hover:scale-110 transition-complex" onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop'; this.onerror=null;" />
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                            Michelin ⭐
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-4 right-4">
+                                        <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-smooth">
+                                            <svg class="w-4 h-4 text-text-secondary hover:text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="text-xl font-playfair font-bold text-primary group-hover:text-accent transition-smooth">
+                                            Alma Lusitana
+                                        </h3>
+                                        <div class="flex items-center text-warning">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <span class="ml-1 text-sm font-semibold">4.7</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-text-secondary text-sm mb-2 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Cedofeita, Porto
+                                    </p>
+                                    <p class="text-text-secondary mb-4 text-sm">
+                                        <strong class="text-primary">Especialidade:</strong> Francesinha reimaginada<br />
+                                        <strong class="text-secondary">História:</strong> Chef Miguel Rocha reimagina clássicos com técnicas modernas.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-accent font-semibold text-lg">€€€€</span>
+                                            <span class="text-xs text-text-secondary">100€+</span>
+                                        </div>
+                                        <a href="restaurant_profile_pages.html" class="btn-primary text-sm px-4 py-2">
+                                            Ver Detalhes
+                                        </a>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-surface">
+                                        <div class="flex items-center text-xs text-text-secondary">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                            </svg>
+                                            Menu Degustação • Experiência Premium
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Restaurant Card 4 -->
+                            <article class="card group cursor-pointer hover:scale-105 transition-complex">
+                                <div class="relative overflow-hidden rounded-t-lg">
+                                    <img src="https://images.pexels.com/photos/5490778/pexels-photo-5490778.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Marisqueira do Cais" class="w-full h-48 object-cover group-hover:scale-110 transition-complex" onerror="this.src='https://images.pixabay.com/photo-2020/10/01/19/10/seafood-5620529_1280.jpg'; this.onerror=null;" />
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                            Frutos do Mar
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-4 right-4">
+                                        <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-smooth">
+                                            <svg class="w-4 h-4 text-text-secondary hover:text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="text-xl font-playfair font-bold text-primary group-hover:text-accent transition-smooth">
+                                            Marisqueira do Cais
+                                        </h3>
+                                        <div class="flex items-center text-warning">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <span class="ml-1 text-sm font-semibold">4.6</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-text-secondary text-sm mb-2 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Tavira, Algarve
+                                    </p>
+                                    <p class="text-text-secondary mb-4 text-sm">
+                                        <strong class="text-primary">Especialidade:</strong> Cataplana de marisco fresco<br />
+                                        <strong class="text-secondary">História:</strong> Família de pescadores serve frutos do mar há 40 anos.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-accent font-semibold text-lg">€€</span>
+                                            <span class="text-xs text-text-secondary">30-45€</span>
+                                        </div>
+                                        <a href="restaurant_profile_pages.html" class="btn-primary text-sm px-4 py-2">
+                                            Ver Detalhes
+                                        </a>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-surface">
+                                        <div class="flex items-center text-xs text-text-secondary">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                            </svg>
+                                            Vista para o Mar • Peixe do Dia
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Restaurant Card 5 -->
+                            <article class="card group cursor-pointer hover:scale-105 transition-complex">
+                                <div class="relative overflow-hidden rounded-t-lg">
+                                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Tasca da Esquina" class="w-full h-48 object-cover group-hover:scale-110 transition-complex" onerror="this.src='https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800'; this.onerror=null;" />
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-accent text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                                            Vegetariano
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-4 right-4">
+                                        <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-smooth">
+                                            <svg class="w-4 h-4 text-text-secondary hover:text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="text-xl font-playfair font-bold text-primary group-hover:text-accent transition-smooth">
+                                            Tasca da Esquina
+                                        </h3>
+                                        <div class="flex items-center text-warning">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <span class="ml-1 text-sm font-semibold">4.5</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-text-secondary text-sm mb-2 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Évora, Alentejo
+                                    </p>
+                                    <p class="text-text-secondary mb-4 text-sm">
+                                        <strong class="text-primary">Especialidade:</strong> Migas alentejanas vegetarianas<br />
+                                        <strong class="text-secondary">História:</strong> Interpretação moderna de pratos tradicionais sem carne.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-accent font-semibold text-lg">€€</span>
+                                            <span class="text-xs text-text-secondary">20-35€</span>
+                                        </div>
+                                        <a href="restaurant_profile_pages.html" class="btn-primary text-sm px-4 py-2">
+                                            Ver Detalhes
+                                        </a>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-surface">
+                                        <div class="flex items-center text-xs text-text-secondary">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                            </svg>
+                                            Ingredientes Locais • Opções Veganas
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Restaurant Card 6 -->
+                            <article class="card group cursor-pointer hover:scale-105 transition-complex">
+                                <div class="relative overflow-hidden rounded-t-lg">
+                                    <img src="https://images.pixabay.com/photo-2016/11/06/23/31/breakfast-1804457_1280.jpg" alt="Adega do Bacalhau" class="w-full h-48 object-cover group-hover:scale-110 transition-complex" onerror="this.src='https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800'; this.onerror=null;" />
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                            Especialista Bacalhau
+                                        </span>
+                                    </div>
+                                    <div class="absolute top-4 right-4">
+                                        <button class="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-smooth">
+                                            <svg class="w-4 h-4 text-text-secondary hover:text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h3 class="text-xl font-playfair font-bold text-primary group-hover:text-accent transition-smooth">
+                                            Adega do Bacalhau
+                                        </h3>
+                                        <div class="flex items-center text-warning">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <span class="ml-1 text-sm font-semibold">4.4</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-text-secondary text-sm mb-2 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Coimbra, Centro
+                                    </p>
+                                    <p class="text-text-secondary mb-4 text-sm">
+                                        <strong class="text-primary">Especialidade:</strong> 365 receitas de bacalhau<br />
+                                        <strong class="text-secondary">História:</strong> Restaurante centenário com a maior variedade de bacalhau do país.
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-accent font-semibold text-lg">€€</span>
+                                            <span class="text-xs text-text-secondary">25-40€</span>
+                                        </div>
+                                        <a href="restaurant_profile_pages.html" class="btn-primary text-sm px-4 py-2">
+                                            Ver Detalhes
+                                        </a>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-surface">
+                                        <div class="flex items-center text-xs text-text-secondary">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                            </svg>
+                                            Menu Degustação Bacalhau • Tradição Centenária
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Load More Button -->
+                        <div class="text-center mt-12">
+                            <button class="btn-secondary px-8 py-4" id="load-more">
+                                <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                Carregar Mais Restaurantes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-text-primary text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" rx="8" fill="#D4A574"/>
+                            <path d="M12 28C12 24.6863 14.6863 22 18 22H22C25.3137 22 28 24.6863 28 28" stroke="#1B4B73" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="20" cy="16" r="4" stroke="#1B4B73" stroke-width="2"/>
+                            <path d="M8 32H32" stroke="#C17B5A" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M10 8L30 8" stroke="#C17B5A" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <div>
+                            <h3 class="text-xl font-playfair font-bold">Sabores Lusitanos</h3>
+                            <p class="text-sm opacity-75">Hospitalidade Portuguesa</p>
+                        </div>
+                    </div>
+                    <p class="text-white/80 mb-6 max-w-md">
+                        Conectando estabelecimentos autênticos portugueses com entusiastas da gastronomia através de experiências culturais genuínas.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div>
+                    <h4 class="font-playfair font-bold text-lg mb-4">Navegação</h4>
+                    <ul class="space-y-2">
+                        <li><a href="homepage.html" class="text-white/80 hover:text-accent transition-smooth">Início</a></li>
+                        <li><a href="restaurant_discovery_hub.html" class="text-white/80 hover:text-accent transition-smooth">Descobrir Restaurantes</a></li>
+                        <li><a href="cultural_food_map.html" class="text-white/80 hover:text-accent transition-smooth">Mapa Gastronómico</a></li>
+                        <li><a href="community_reviews_stories.html" class="text-white/80 hover:text-accent transition-smooth">Histórias Culturais</a></li>
+                        <li><a href="events_cultural_calendar.html" class="text-white/80 hover:text-accent transition-smooth">Eventos</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-playfair font-bold text-lg mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-white/80">
+                        <li>info@saboreslusitanos.pt</li>
+                        <li>+351 21 123 4567</li>
+                        <li>Lisboa, Portugal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-white/20 mt-12 pt-8 text-center text-white/60">
+                <p>&copy; 2025 Sabores Lusitanos. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Mobile filter toggle
+        document.getElementById('mobile-filter-toggle').addEventListener('click', function() {
+            const filterContent = document.getElementById('filter-content');
+            filterContent.classList.toggle('hidden');
+        });
+
+        // Quick filter functionality
+        document.querySelectorAll('.quick-filter').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.quick-filter').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Filter logic would go here
+                filterRestaurants(this.dataset.filter);
+            });
+        });
+
+        // View toggle functionality
+        document.getElementById('grid-view').addEventListener('click', function() {
+            this.classList.add('bg-accent', 'text-primary');
+            this.classList.remove('bg-white', 'text-text-secondary');
+            document.getElementById('list-view').classList.add('bg-white', 'text-text-secondary');
+            document.getElementById('list-view').classList.remove('bg-accent', 'text-primary');
+            
+            // Switch to grid view
+            document.getElementById('restaurant-grid').className = 'grid md:grid-cols-2 xl:grid-cols-3 gap-6';
+        });
+
+        document.getElementById('list-view').addEventListener('click', function() {
+            this.classList.add('bg-accent', 'text-primary');
+            this.classList.remove('bg-white', 'text-text-secondary');
+            document.getElementById('grid-view').classList.add('bg-white', 'text-text-secondary');
+            document.getElementById('grid-view').classList.remove('bg-accent', 'text-primary');
+            
+            // Switch to list view
+            document.getElementById('restaurant-grid').className = 'grid grid-cols-1 gap-6';
+        });
+
+        // Search functionality
+        document.getElementById('search-btn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('main-search').value;
+            performSearch(searchTerm);
+        });
+
+        document.getElementById('main-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch(this.value);
+            }
+        });
+
+        // Clear filters
+        document.getElementById('clear-filters').addEventListener('click', function() {
+            // Reset all checkboxes and radio buttons
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // Reset to default selections
+            document.querySelector('input[name="cuisine-type"][value="tradicional"]').checked = true;
+            document.querySelector('.region-filter[value="minho"]').checked = true;
+            document.querySelector('.region-filter[value="lisboa"]').checked = true;
+            
+            // Update results
+            updateResults();
+        });
+
+        // Sort functionality
+        document.getElementById('sort-select').addEventListener('change', function() {
+            sortRestaurants(this.value);
+        });
+
+        // Load more functionality
+        document.getElementById('load-more').addEventListener('click', function() {
+            loadMoreRestaurants();
+        });
+
+        // Filter functions
+        function filterRestaurants(filterType) {
+            console.log('Filtering by:', filterType);
+            // Implementation would filter the restaurant grid based on the selected filter
+            updateResults();
+        }
+
+        function performSearch(searchTerm) {
+            console.log('Searching for:', searchTerm);
+            // Implementation would search restaurants based on the search term
+            updateResults();
+        }
+
+        function sortRestaurants(sortType) {
+            console.log('Sorting by:', sortType);
+            // Implementation would sort the restaurant grid based on the selected sort option
+            updateResults();
+        }
+
+        function loadMoreRestaurants() {
+            console.log('Loading more restaurants...');
+            // Implementation would load additional restaurant cards
+            // For demo purposes, we'll just show a loading state
+            const button = document.getElementById('load-more');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<svg class="w-4 h-4 mr-2 inline animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>Carregando...';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                // Here you would append new restaurant cards to the grid
+            }, 2000);
+        }
+
+        function updateResults() {
+            // Update the results count
+            const count = Math.floor(Math.random() * 50) + 10; // Random count for demo
+            document.getElementById('results-count').textContent = count;
+        }
+
+        // Initialize filter styles
+        document.addEventListener('DOMContentLoaded', function() {
+            // Style quick filter buttons
+            const style = document.createElement('style');
+            style.textContent = `
+                .quick-filter {
+                    @apply px-4 py-2 rounded-lg border border-surface bg-white text-text-secondary font-medium transition-smooth flex items-center hover:border-accent hover:text-accent;
+                }
+                .quick-filter.active {
+                    @apply bg-accent text-primary border-accent;
+                }
+                .filter-group {
+                    @apply border-b border-surface pb-4;
+                }
+                .filter-group:last-child {
+                    @apply border-b-0 pb-0;
+                }
+                input[type="checkbox"], input[type="radio"] {
+                    @apply w-4 h-4 text-accent border-surface rounded focus:ring-accent focus:ring-2;
+                }
+                #filter-content.hidden {
+                    @apply lg:block;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // Map toggle functionality
+        document.getElementById('map-toggle').addEventListener('click', function() {
+            // Toggle to map view - would integrate with cultural_food_map.html
+            window.location.href = 'cultural_food_map.html';
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.classList.add('bg-white/98');
+            } else {
+                header.classList.remove('bg-white/98');
+            }
+        });
+    </script>
+</body>
+</html>

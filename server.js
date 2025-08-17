@@ -66,6 +66,14 @@ app.use('/api/map', mapRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/reservations', reservationRoutes);
 
+// Serve static files (HTML, CSS, JS)
+app.use(express.static('public'));
+
+// Root endpoint - serve the main page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ 
@@ -75,13 +83,13 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve frontend files in production (commented out for now)
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('public'));
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
-//   });
-// }
+// Serve frontend files in production
+if (process.env.NODE_ENV === 'production') {
+  // Catch all routes and serve index.html for SPA routing
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+}
 
 // Error handling middleware
 app.use(errorHandler);
