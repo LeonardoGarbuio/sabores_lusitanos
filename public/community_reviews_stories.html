@@ -754,6 +754,8 @@
 
     <!-- JavaScript -->
     <script>
+        console.log('JavaScript loaded successfully!');
+        
         // Mobile menu toggle
         document.getElementById('mobile-menu-btn').addEventListener('click', function() {
             const mobileMenu = document.getElementById('mobile-menu');
@@ -766,7 +768,11 @@
         const closeModalBtn = document.getElementById('close-modal');
         const closeModalBtn2 = document.getElementById('close-modal-btn');
 
+        console.log('Share story button found:', shareStoryBtn);
+        console.log('Share modal found:', shareModal);
+
         shareStoryBtn.addEventListener('click', function() {
+            console.log('Share story button clicked!');
             shareModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         });

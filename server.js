@@ -28,7 +28,21 @@ app.set('trust proxy', 1);
 // Database is automatically connected when imported
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://static.rocket.new"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://images.pexels.com", "https://images.pixabay.com", "https://images.unsplash.com"],
+      connectSrc: ["'self'"],
+      frameSrc: ["'none'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: []
+    }
+  }
+}));
 // CORS - Configuração para produção
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
