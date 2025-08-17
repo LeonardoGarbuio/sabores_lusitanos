@@ -708,7 +708,7 @@
                         </button>
                     </div>
                 </div>
-                <form class="p-6 space-y-6">
+                <form class="p-6 space-y-6" id="share-story-form">
                     <div>
                         <label class="block text-sm font-semibold text-text-primary mb-2">Categoria da História</label>
                         <select class="input-field">
@@ -745,7 +745,7 @@
                     </div>
                     <div class="flex gap-4">
                         <button type="button" class="btn-secondary flex-1" id="close-modal-btn">Cancelar</button>
-                        <button type="submit" class="btn-primary flex-1">Partilhar História</button>
+                        <button type="submit" class="btn-primary flex-1" id="submit-story-btn">Partilhar História</button>
                     </div>
                 </form>
             </div>
@@ -843,14 +843,30 @@
             ratingText.textContent = ratingTexts[selectedRating] || 'Selecione uma avaliação';
         }
 
+        // API Configuration
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:10000/api' 
+            : 'https://sabores-lusitanos.onrender.com/api';
+
         // Category filtering
         document.querySelectorAll('[data-category]').forEach(card => {
             card.addEventListener('click', function() {
                 const category = this.dataset.category;
-                // Here you would implement category filtering logic
-                console.log('Filtering by category:', category);
+                loadStoriesByCategory(category);
             });
         });
+
+        // Load stories by category
+        async function loadStoriesByCategory(category) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/community/stories?category=${category}`);
+                const data = await response.json();
+                console.log('Stories loaded:', data);
+                // Update UI with real data
+            } catch (error) {
+                console.error('Error loading stories:', error);
+            }
+        }
 
         // Language filter
         document.getElementById('language-filter').addEventListener('change', function() {
@@ -887,6 +903,45 @@
                 header.classList.add('bg-white/98');
             } else {
                 header.classList.remove('bg-white/98');
+            }
+        });
+
+        // Share story form submission
+        document.getElementById('share-story-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const storyData = {
+                category: formData.get('category') || this.querySelector('select').value,
+                restaurant: formData.get('restaurant') || this.querySelector('input[placeholder*="restaurante"]').value,
+                title: formData.get('title') || this.querySelector('input[placeholder*="refeição"]').value,
+                content: formData.get('content') || this.querySelector('textarea').value,
+                rating: selectedRating
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/community/stories`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(storyData)
+                });
+
+                if (response.ok) {
+                    alert('História partilhada com sucesso!');
+                    shareModal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                    this.reset();
+                    selectedRating = 0;
+                    updateStars();
+                    updateRatingText();
+                } else {
+                    alert('Erro ao partilhar história. Tente novamente.');
+                }
+            } catch (error) {
+                console.error('Error sharing story:', error);
+                alert('Erro de conexão. Verifique se o backend está funcionando.');
             }
         });
 
