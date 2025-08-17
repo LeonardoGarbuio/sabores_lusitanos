@@ -54,8 +54,7 @@ const reservationSchema = new mongoose.Schema({
     default: 'pending'
   },
   confirmationCode: {
-    type: String,
-    unique: true
+    type: String
   },
   confirmedAt: Date,
   cancelledAt: Date,
