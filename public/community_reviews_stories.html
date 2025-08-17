@@ -240,7 +240,7 @@
                     </p>
                 </div>
                 <div class="hidden md:flex items-center space-x-4">
-                    <button class="btn-secondary">Todas as Histórias</button>
+                    <button class="btn-secondary" id="all-stories-btn">Todas as Histórias</button>
                     <div class="flex items-center space-x-2">
                         <label class="text-sm text-text-secondary">Idioma:</label>
                         <select class="input-field w-32 py-2" id="language-filter">
@@ -542,7 +542,7 @@
             </div>
 
             <div class="text-center mt-12">
-                <button class="btn-primary text-lg px-8 py-4">
+                <button class="btn-primary text-lg px-8 py-4" id="all-reviews-btn">
                     Ver Todas as Avaliações
                 </button>
             </div>
@@ -788,6 +788,26 @@
                 btn.addEventListener('click', openShareModal);
             }
         });
+
+        // All stories button
+        const allStoriesBtn = document.getElementById('all-stories-btn');
+        if (allStoriesBtn) {
+            allStoriesBtn.addEventListener('click', function() {
+                console.log('All stories button clicked!');
+                // For now, just show an alert. Later this could load more stories
+                alert('Funcionalidade de "Todas as Histórias" será implementada em breve!');
+            });
+        }
+
+        // All reviews button
+        const allReviewsBtn = document.getElementById('all-reviews-btn');
+        if (allReviewsBtn) {
+            allReviewsBtn.addEventListener('click', function() {
+                console.log('All reviews button clicked!');
+                // For now, just show an alert. Later this could load more reviews
+                alert('Funcionalidade de "Todas as Avaliações" será implementada em breve!');
+            });
+        }
 
         [closeModalBtn, closeModalBtn2].forEach(btn => {
             btn.addEventListener('click', function() {
